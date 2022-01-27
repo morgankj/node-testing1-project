@@ -38,7 +38,9 @@ function trimPropertiesMutation(obj) {
  * findLargestInteger([{ integer: 1 }, { integer: 3 }, { integer: 2 }]) // returns 3
  */
 function findLargestInteger(integers) {
-  integers.sort((firstItem, secondItem) => secondItem.integer - firstItem.integer);
+  integers.sort(
+    (firstItem, secondItem) => secondItem.integer - firstItem.integer
+  );
   return integers[0].integer;
 }
 
@@ -79,6 +81,7 @@ class Seasons {
    */
   constructor() {
     // ✨ initialize whatever properties are needed
+    this.i = 0;
   }
 
   /**
@@ -94,6 +97,20 @@ class Seasons {
    * seasons.next() // returns "summer"
    */
   next() {
+    switch (this.i) {
+      case 0:
+        this.i = 1;
+        return "summer";
+      case 1:
+        this.i = 2;
+        return "fall";
+      case 2:
+        this.i = 3;
+        return "winter";
+      case 3:
+        this.i = 0;
+        return "spring";
+    }
     // ✨ implement
   }
 }
@@ -106,8 +123,11 @@ class Car {
    * @param {number} mpg - miles the car can drive per gallon of gas
    */
   constructor(name, tankSize, mpg) {
-    this.odometer = 0; // car initilizes with zero miles
-    this.tank = tankSize; // car initiazes full of gas
+    this.odometer = 0; // car initializes with zero miles
+    this.tank = tankSize; // car initializes full of gas
+    this.mpg = mpg;
+    this.maxTank = tankSize;
+    this.name = name;
     // ✨ initialize whatever other properties are needed
   }
 
@@ -126,6 +146,16 @@ class Car {
    */
   drive(distance) {
     // ✨ implement
+    let maxDistance = this.tank * this.mpg;
+    if (distance < maxDistance) {
+      this.odometer += distance;
+      this.tank -= distance / this.mpg;
+      return this.odometer;
+    } else {
+      this.odometer += maxDistance;
+      this.tank = 0;
+      return this.odometer;
+    }
   }
 
   /**
@@ -141,6 +171,12 @@ class Car {
    */
   refuel(gallons) {
     // ✨ implement
+    if (this.tank + gallons > this.maxTank) {
+      this.tank = this.maxTank;
+    } else {
+      this.tank += gallons;
+    }
+    return this.mpg * this.tank;
   }
 }
 
@@ -157,8 +193,12 @@ class Car {
  *    // result is false
  * })
  */
-function isEvenNumberAsync(number) {
-  // ✨ implement
+async function isEvenNumberAsync(number) {
+  if (number % 2 === 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 module.exports = {
